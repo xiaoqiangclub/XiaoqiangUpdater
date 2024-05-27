@@ -84,8 +84,12 @@ pip install XiaoqiangUpdater
    ```
 
 ### 打包更新程序
-- 第一种方式可以直接下载打包好的通用exe文件：[最新版下载地址]()
 
+**直接使用**
+- 第一种方式可以直接下载打包好的通用exe文件：[最新版下载地址](https://github.com/xiaoqiangclub/XiaoqiangUpdater/releases)
+
+
+**手动打包**
 - 配置updater
    ```python
    from XiaoqiangUpdater import (updater, updater_config_example)
