@@ -84,28 +84,28 @@ pip install XiaoqiangUpdater
    ```
 
 ### 打包更新程序
+- 第一种方式可以直接下载打包好的通用exe文件：[最新版下载地址]()
 
+- 配置updater
+   ```python
+   from XiaoqiangUpdater import (updater, updater_config_example)
+
+   
+   def test_updater():
+       updater_config_example(save_path='updater_config.json') # 这里为了方便生成一个示例配置文件
+       updater(config_path='updater_config.json')   # 指定配置文件路径，默认会自动在当前目录下查找名为updater_config.json的配置文件
+   
+   
+   if __name__ == '__main__':
+       test_updater()
+   ```
+  
 - 调用`pack_to_exe`方法，将 `your_updater` 打包成可执行文件：
    ```python
    from XiaoqiangUpdater import pack_to_exe
    
    if __name__ == '__main__':
        pack_to_exe(main_file='test_updater.py', with_cmd_window=False, app_ico_logo=None)
-   ```
-
-3. 调用示例
-   ```python
-   from XiaoqiangUpdater import (updater, updater_config_example)
-
-   
-   def test_updater():
-    # 
-       updater_config_example(save_path='updater_config.json')
-       updater(config_path='updater_config.json')
-   
-   
-   if __name__ == '__main__':
-       test_updater()
    ```
 
 ## 完整示例
