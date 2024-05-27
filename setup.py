@@ -1,10 +1,12 @@
 from setuptools import setup, find_packages
 import codecs
 
+
 # 从 requirements.txt 文件读取依赖
 def read_requirements():
     with codecs.open('requirements.txt', 'r', encoding='utf-8') as f:
         return f.read().splitlines()
+
 
 setup(
     name='XiaoqiangUpdater',  # 项目名称
@@ -29,7 +31,4 @@ setup(
     },
     python_requires='>=3.6',
     include_package_data=True,
-    package_data={
-        'XiaoqiangUpdater': ['img/*']
-    },
 )
