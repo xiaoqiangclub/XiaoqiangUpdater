@@ -16,7 +16,7 @@ def read_requirements():
 
 
 setup(
-    name='XiaoqiangClub',
+    name='XiaoqiangUpdater',
     version='0.0.1',  # 更新版本号
     description='A general purpose Windows program upgrade tool',
     long_description=open('README.md', 'r', encoding='utf-8').read(),
