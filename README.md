@@ -13,6 +13,14 @@
 
 该模块通过检查当前版本和最新版本之间的差异，从指定的URL下载更新包，并验证其完整性。然后将更新包解压到指定的安装路径，并重启主应用程序。
 
+**使用该模块需要满足以下条件：**
+
+1. 你的项目发布时打包成一个`zip格式`的压缩包。
+2. 你的项目需要提供一个`exe入口文件`，用于启动更新程序。
+3. 你的项目如果是多目录多文件，exe文件需要在你项目的根目录下。
+4. 当你发布新版本的时候，建议保持`exe入口文件名`不变（例如：`app.exe`），否则需要你每次都在`updater_config.json`
+   中修改`main_app`字段。
+
 ## 技术栈
 
 - Python 3.11.5
@@ -62,9 +70,9 @@ pip install XiaoqiangUpdater
 - `latest_version`：最新版本号。
 - `update_url`：更新包的下载URL。
 - `main_app`：主程序的路径（相对路径：一般都是放在根目录下的exe入口文件）。
-- `verify_file_md5`：更新包校验文件的MD5值。
+- `verify_file_md5`：更新包校验文件的MD5值（可选），可以直接调用模块中的`get_file_md5`方法获取。
 - `logo_path`：图形用户界面的图标路径（可选）。
-- `open_current_version_on_fail`：更新失败或取消时是否打开当前版本的程序。
+- `open_current_version_on_fail`：更新失败或取消时是否打开当前版本的程序（可选）。默认是 `True`。
 - `install_dir`：软件解压更新的目录（可选）。默认是 `updater.exe` 所在的目录。
 
 **注意：**
@@ -86,24 +94,25 @@ pip install XiaoqiangUpdater
 ### 打包更新程序
 
 **直接使用**
+
 - 第一种方式可以直接下载打包好的通用exe文件：[最新版下载地址](https://github.com/xiaoqiangclub/XiaoqiangUpdater/releases)
 
-
 **手动打包**
-- 配置updater
+
+- 配置updater(可默认)
    ```python
    from XiaoqiangUpdater import (updater, updater_config_example)
 
    
    def test_updater():
-       updater_config_example(save_path='updater_config.json') # 这里为了方便生成一个示例配置文件
-       updater(config_path='updater_config.json')   # 指定配置文件路径，默认会自动在当前目录下查找名为updater_config.json的配置文件
+       updater_config_example(save_path='updater_config.json') # 这里为了方便生成一个示例配置文件，这里需要你根据自己的项目去生成
+       updater(config_path='updater_config.json')   # 指定配置文件路径，不指定：默认会自动在当前目录下遍历查找名为updater_config.json的配置文件
    
    
    if __name__ == '__main__':
        test_updater()
    ```
-  
+
 - 调用`pack_to_exe`方法，将 `your_updater` 打包成可执行文件：
    ```python
    from XiaoqiangUpdater import pack_to_exe
@@ -112,7 +121,7 @@ pip install XiaoqiangUpdater
        pack_to_exe(main_file='test_updater.py', with_cmd_window=False, app_ico_logo=None)
    ```
 
-## 完整示例
+## 项目中使用示例
 
 ```python
 # _*_ coding : UTF-8 _*_
@@ -128,6 +137,7 @@ import subprocess
 import sys
 import tkinter as tk
 from tkinter import ttk
+from XiaoqiangUpdater import updater, updater_config_example
 
 
 def app():
@@ -151,43 +161,34 @@ def app():
 
 
 def generate_config():
-    config = {
-        "current_version": "1.0.0",
-        "latest_version": "使用代码从服务器或其他方式获取",
-        "update_url": "使用代码从服务器或其他方式获取",
-        "main_app": "path/to/main_app.exe",  # 主程序的入口文件，确保每个版本的主程序入口文件名都相同
-        "verify_file_md5": "使用代码从服务器或其他方式获取",  # 可以调用模块的get_file_md5()方法来生成md5再放到服务器
-        "logo_path": "path/to/logo.png",  # 升级程序的logo图标，可以省略
-        "open_current_version_on_fail": True,  # 如果更新失败，是否打开当前版本的应用程序
-        "install_dir": ""  # 可选，默认值为updater所在目录
-    }
+    """
+    注意：这个函数仅用于生成示例配置文件，在实际使用中需要你自己去写这个函数。
+    """
     config_path = os.path.join(os.getcwd(), "updater_config.json")
-    with open(config_path, 'w', encoding='utf-8') as config_file:
-        json.dump(config, config_file, ensure_ascii=False, indent=4)
+    updater_config_example(save_path=config_path)
     print(f"配置文件已生成：{config_path}")
 
 
 # 用于生产环境调用exe文件
 def main():
     try:
-        # 生成配置文件
+        # 调用生成配置文件函数
         generate_config()
-        updater_path = os.path.join(os.getcwd(), "tests/updater.exe")
+        # 调用更新程序
+        updater_path = os.path.join(os.getcwd(), "updater.exe")
         subprocess.Popen([updater_path])
         sys.exit()
     except Exception as e:
         print(f"检查更新时出错: {e}")
 
 
-# 仅用于测试，调用updater.py中的handle_arguments函数
-from XiaoqiangUpdater import handle_arguments
-
-
+# 仅用于测试，调用updater.py中的start_update函数
 def main_test():
     try:
-        # 生成配置文件
+        # 调用生成配置文件函数
         generate_config()
-        handle_arguments()
+        # 调用更新逻辑
+        updater("updater_config.json")
         sys.exit()
     except Exception as e:
         print(f"检查更新时出错: {e}")
@@ -199,10 +200,13 @@ if __name__ == "__main__":
 
     # 测试使用：
     main_test()
+    # 启动应用程序
+    app()
 ```
 
 ## 注意事项
 
+- `generate_config`方法需要你自己去写，用于生成配置文件。
 - 请确保更新URL和文件路径正确，并且更新包完整。
 - 为了确保安全，建议验证下载文件的完整性。
 - 请根据实际情况修改主应用程序中的更新检查逻辑和参数配置。

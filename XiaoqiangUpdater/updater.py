@@ -409,7 +409,7 @@ def updater(config_path: Optional[str] = None) -> None:
     main_app = config.get("main_app")
     verify_file_md5 = config.get("verify_file_md5")
     logo_path = config.get("logo_path")
-    open_current_version_on_fail = config.get("open_current_version_on_fail", False)
+    open_current_version_on_fail = config.get("open_current_version_on_fail", True)
     install_dir = config.get("install_dir")
 
     # 如果 install_dir 未定义或为空字符串，则将其设置为 base_path
@@ -553,7 +553,7 @@ def print_usage():
         }
 
         调用方法：
-        updater.exe <config_path>
+        updater <config_path>
         config_path: 配置文件的路径。例如，updater.exe C:\\path\\to\\updater_config.json
 
         可选参数：

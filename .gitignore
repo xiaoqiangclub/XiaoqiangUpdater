@@ -223,3 +223,4 @@ cython_debug/
 /.idea/sonarlint/issuestore/d/b/dba859897e0e8cff359fc927f5d5c0990c6309d4
 /.idea/sonarlint/securityhotspotstore/d/b/dba859897e0e8cff359fc927f5d5c0990c6309d4
 /XiaoqiangUpdater/updater_config.json
+/XiaoqiangUpdater/temp/updater.zip

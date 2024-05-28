@@ -1,4 +1,3 @@
-import importlib.resources as pkg_resources
 from importlib.resources import (as_file, files)
 from XiaoqiangUpdater.updater import (updater,
                                       get_file_md5,
