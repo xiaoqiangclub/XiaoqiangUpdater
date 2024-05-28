@@ -13,3 +13,4 @@ if __name__ == '__main__':
     print_logo()
     print_usage()
     print(XiaoqiangUpdater.__version__)
+    print(get_file_md5(r'D:\001_MyArea\002_MyCode\001_PythonProjects\pypi\xiaoqiangupdater\XiaoqiangUpdater\dist\updater.exe'))
