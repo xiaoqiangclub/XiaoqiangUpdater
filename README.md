@@ -210,3 +210,5 @@ if __name__ == "__main__":
 - 请确保更新URL和文件路径正确，并且更新包完整。
 - 为了确保安全，建议验证下载文件的完整性。
 - 请根据实际情况修改主应用程序中的更新检查逻辑和参数配置。
+
+![支持我](https://gitee.com/xiaoqiangclub/xiaoqiangapps/raw/master/images/xiaoqiangclub_ad.png)
