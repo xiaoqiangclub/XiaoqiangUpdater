@@ -4,6 +4,7 @@ include setup.py
 include requirements.txt
 include MANIFEST.in
 
+recursive-include XiaoqiangUpdater/img *
 recursive-include XiaoqiangUpdater *.py
 recursive-include tests *.py
 

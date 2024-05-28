@@ -1,22 +1,20 @@
 from setuptools import setup, find_packages
 import codecs
 
-
 # 从 requirements.txt 文件读取依赖
 def read_requirements():
     with codecs.open('requirements.txt', 'r', encoding='utf-8') as f:
         return f.read().splitlines()
 
-
 setup(
-    name='XiaoqiangUpdater',  # 项目名称
-    version='1.0.0',
+    name='XiaoqiangUpdater',
+    version='1.0.1',  # 更新版本号
     description='A general purpose program upgrade tool',
     long_description=open('README.md', 'r', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
     author='XiaoqiangClub',
     author_email='xiaoqiangclub@hotmail.com',
-    url='https://github.com/xiaoqiangclub/XiaoqiangUpdater',  # 更新URL
+    url='https://github.com/xiaoqiangclub/XiaoqiangUpdater',
     packages=find_packages(),
     install_requires=read_requirements(),
     classifiers=[
@@ -31,4 +29,7 @@ setup(
     },
     python_requires='>=3.6',
     include_package_data=True,
+    package_data={
+        'XiaoqiangUpdater': ['img/*']
+    },
 )

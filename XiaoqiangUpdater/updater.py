@@ -27,12 +27,24 @@ logging.basicConfig(level=logging.INFO,
                         logging.FileHandler(log_file, encoding='utf-8'),
                         logging.StreamHandler(sys.stdout)
                     ])
-logging.info(f'程序根目录：{base_path}')
 
 DEFAULT_LOGO_URL = "https://gitee.com/xiaoqiangclub/xiaoqiangapps/raw/master/pypi/updater/app_logo.png"
 DEFAULT_LOGO_PATH = os.path.join(temp_dir, "logo.png")
 
 root = None  # 全局变量，主窗口
+
+
+def open_directory(path: str):
+    """
+    尝试打开给定路径的目录，并记录操作结果。
+
+    :param path: 需要打开的目录路径。
+    """
+    try:
+        os.startfile(path)
+        logging.info(f"已打开保存目录：{path}")
+    except Exception as e:
+        logging.error(f"打开保存目录失败：{e}")
 
 
 def verify_update(file_path: str, expected_md5: str) -> bool:
@@ -112,7 +124,7 @@ def install_update(download_path: str, install_path: str, progress_callback=None
             total_files = len(zip_ref.infolist())
             for index, file in enumerate(zip_ref.infolist()):
                 target_path = os.path.join(install_path, file.filename)
-                logging.info(f"解压文件：{target_path}")
+                logging.debug(f"解压文件：{target_path}")
                 os.makedirs(os.path.dirname(target_path), exist_ok=True)
                 if os.path.isdir(target_path):
                     import shutil
@@ -169,7 +181,7 @@ def find_config_file() -> Optional[str]:
     """
     for root, dirs, files in os.walk(base_path):
         if "updater_config.json" in files:
-            return os.path.join(root, "../updater_config.json")
+            return os.path.join(root, "updater_config.json")
     return None
 
 
@@ -225,10 +237,7 @@ def show_error_window(parent, update_url, main_app, open_current_version_on_fail
     def manual_update():
         webbrowser.open(update_url)
         error_window.destroy()
-        try:
-            os.startfile(base_path)
-        except Exception as e:
-            logging.error(f"打开安装目录失败: {e}")
+        open_directory(base_path)
 
     def cancel():
         error_window.destroy()
@@ -313,10 +322,7 @@ def show_md5_mismatch_window(parent, update_url, main_app, download_path, instal
     def manual_update():
         webbrowser.open(update_url)
         md5_window.destroy()
-        try:
-            os.startfile(base_path)
-        except Exception as e:
-            logging.error(f"打开安装目录失败: {e}")
+        open_directory(base_path)
 
     def cancel():
         md5_window.destroy()
@@ -503,13 +509,7 @@ def updater_config_example(save_path: str = None, print_eg: bool = True) -> dict
             logging.info(f"示例配置已保存到：{save_path}")
 
         # 打开示例配置文件保存目录
-        try:
-            get_path = os.path.dirname(save_path)
-            os.startfile(get_path)
-            logging.info(f"已打开保存目录：{get_path}")
-
-        except Exception as e:
-            logging.error(f"打开保存目录失败：{e}")
+        open_directory(os.path.dirname(save_path))
 
     return example_config
 
@@ -519,18 +519,18 @@ def print_logo():
     打印程序的logo。
     """
     logo_text = """
-            /$$   /$$ /$$                               /$$                                /$$$$$$  /$$           /$$      
-           | $$  / $$|__/                              |__/                               /$$__  $$| $$          | $$      
-           |  $$/ $$/ /$$  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$  /$$$$$$$   /$$$$$$ | $$  \__/| $$ /$$   /$$| $$$$$$$ 
-            \  $$$$/ | $$ |____  $$ /$$__  $$ /$$__  $$| $$ |____  $$| $$__  $$ /$$__  $$| $$      | $$| $$  | $$| $$__  $$
-             >$$  $$ | $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$      | $$| $$  | $$| $$  \ $$
-            /$$/\  $$| $$ /$$__  $$| $$  | $$| $$  | $$| $$ /$$__  $$| $$  | $$| $$  | $$| $$    $$| $$| $$  | $$| $$  | $$
-           | $$  \ $$| $$|  $$$$$$$|  $$$$$$/|  $$$$$$$| $$|  $$$$$$$| $$  | $$|  $$$$$$$|  $$$$$$/| $$|  $$$$$$/| $$$$$$$/
-           |__/  |__/ \_______/ \______/  \____  $$|__/ \_______/|__/  |__/ \____  $$ \______/ |__/ \______/ |_______/ 
-                                                   | $$                         /$$  \ $$                                  
-                                                   | $$                        |  $$$$$$/                                  
-                                                   |__/                         \______/                                   
-           """
+                /$$   /$$ /$$                               /$$                                /$$$$$$  /$$           /$$      
+               | $$  / $$|__/                              |__/                               /$$__  $$| $$          | $$      
+               |  $$/ $$/ /$$  /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$  /$$$$$$$   /$$$$$$ | $$  \__/| $$ /$$   /$$| $$$$$$$ 
+                \  $$$$/ | $$ |____  $$ /$$__  $$ /$$__  $$| $$ |____  $$| $$__  $$ /$$__  $$| $$      | $$| $$  | $$| $$__  $$
+                 >$$  $$ | $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$      | $$| $$  | $$| $$  \ $$
+                /$$/\  $$| $$ /$$__  $$| $$  | $$| $$  | $$| $$ /$$__  $$| $$  | $$| $$  | $$| $$    $$| $$| $$  | $$| $$  | $$
+               | $$  \ $$| $$|  $$$$$$$|  $$$$$$/|  $$$$$$$| $$|  $$$$$$$| $$  | $$|  $$$$$$$|  $$$$$$/| $$|  $$$$$$/| $$$$$$$/
+               |__/  |__/ \_______/ \______/  \____  $$|__/ \_______/|__/  |__/ \____  $$ \______/ |__/ \______/ |_______/ 
+                                                       | $$                         /$$  \ $$                                  
+                                                       | $$                        |  $$$$$$/                                  
+                                                       |__/                         \______/                                   
+               """
     print(logo_text)
 
 
@@ -540,26 +540,26 @@ def print_usage():
     """
 
     usage_text = """
-    配置文件示例 (updater_config.json):
-    {
-        "current_version": "1.0.0",
-        "latest_version": "1.1.0",
-        "update_url": "http://example.com/update.zip",
-        "main_app": "path/to/main_app.exe",
-        "verify_file_md5": "d41d8cd98f00b204e9800998ecf8427e",
-        "logo_path": "path/to/logo.png",
-        "open_current_version_on_fail": true,
-        "install_dir": "path/to/install/directory"  # 可选，默认值为updater所在目录
-    }
+        配置文件示例 (updater_config.json):
+        {
+            "current_version": "1.0.0",
+            "latest_version": "1.1.0",
+            "update_url": "http://example.com/update.zip",
+            "main_app": "path/to/main_app.exe",
+            "verify_file_md5": "d41d8cd98f00b204e9800998ecf8427e",
+            "logo_path": "path/to/logo.png",
+            "open_current_version_on_fail": true,
+            "install_dir": "path/to/install/directory"  # 可选，默认值为updater所在目录
+        }
 
-    调用方法：
-    updater.exe <config_path>
-    config_path: 配置文件的路径。例如，updater.exe C:\\path\\to\\updater_config.json
+        调用方法：
+        updater.exe <config_path>
+        config_path: 配置文件的路径。例如，updater.exe C:\\path\\to\\updater_config.json
 
-    可选参数：
-    --help, -h: 显示此帮助信息并退出
-    --eg, -e: 生成一个示例配置文件，并保存到当前目录
-    """
+        可选参数：
+        --help, -h: 显示此帮助信息并退出
+        --eg, -e: 生成一个示例配置文件，并保存到当前目录
+        """
     print(usage_text)
 
 
@@ -571,9 +571,7 @@ def handle_arguments():
         if sys.argv[1] in ['--help', '-h']:
             print_logo()
             print_usage()
-
             sys.exit(0)
-
         elif sys.argv[1] in ['--eg', '-e']:
             example_config = updater_config_example()
             save_path = os.getcwd()
@@ -583,11 +581,7 @@ def handle_arguments():
                 json.dump(example_config, f, ensure_ascii=False, indent=4)
                 logging.info(f"示例配置已保存到：{save_path}")
             # 打开目录
-            try:
-                os.startfile(os.path.dirname(save_path))
-                logging.info(f"已打开保存目录：{os.path.dirname(save_path)}")
-            except Exception as e:
-                logging.error(f"打开保存目录失败：{e}")
+            open_directory(os.path.dirname(save_path))
 
             sys.exit(0)
         else:
@@ -596,3 +590,7 @@ def handle_arguments():
     else:
         print_logo()
         updater()
+
+
+if __name__ == "__main__":
+    handle_arguments()
