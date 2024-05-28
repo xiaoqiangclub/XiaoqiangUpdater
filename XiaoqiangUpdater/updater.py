@@ -1,3 +1,10 @@
+# _*_ coding : UTF-8 _*_
+# 开发人员： Xiaoqiang
+# 微信公众号: xiaoqiangclub
+# 开发时间： 2024/5/27 19:00
+# 文件名称： updater.py
+# 项目描述： 主程序
+# 开发工具： PyCharm
 import os
 import requests
 import sys
@@ -552,7 +559,7 @@ def print_usage():
             "install_dir": ""
         }
 
-        调用方法：
+        终端调用方法：
         updater <config_path>
         config_path: 配置文件的路径。例如，updater.exe C:\\path\\to\\updater_config.json
 
@@ -567,9 +574,10 @@ def handle_arguments():
     """
     处理命令行参数。
     """
+    print_logo()
+
     if len(sys.argv) > 1:
         if sys.argv[1] in ['--help', '-h']:
-            print_logo()
             print_usage()
             sys.exit(0)
         elif sys.argv[1] in ['--eg', '-e']:
@@ -588,7 +596,6 @@ def handle_arguments():
             config_path = sys.argv[1]
             updater(config_path)
     else:
-        print_logo()
         updater()
 
 
