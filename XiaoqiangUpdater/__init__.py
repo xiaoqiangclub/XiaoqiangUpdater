@@ -1,9 +1,22 @@
 import importlib.resources as pkg_resources
-from importlib.resources import as_file, files
-from XiaoqiangUpdater.updater import updater, get_file_md5, updater_config_example
+from importlib.resources import (as_file, files)
+from XiaoqiangUpdater.updater import (updater,
+                                      get_file_md5,
+                                      updater_config_example,
+                                      print_logo,
+                                      print_usage,
+                                      handle_arguments)
 from XiaoqiangUpdater.pack_to_exe import pack_to_exe
 
-__all__ = ['updater', 'get_file_md5', 'updater_config_example', 'pack_to_exe']
+__version__ = '1.0.1'
+
+__all__ = ['updater',
+           'get_file_md5',
+           'updater_config_example',
+           'print_logo',
+           'print_usage',
+           'handle_arguments',
+           'pack_to_exe']
 
 
 def get_image_path(image_name):
@@ -33,3 +46,6 @@ def png_logo():
     :return: logo文件路径
     """
     return get_image_path('updater_logo.png')
+
+
+print_logo()

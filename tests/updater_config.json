@@ -1,0 +1,10 @@
+{
+    "current_version": "1.0.0",
+    "latest_version": "1.1.0",
+    "update_url": "https://fs-im-kefu.7moor-fs1.com/ly/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1716705346432/dist.zip",
+    "main_app": "app.exe",
+    "verify_file_md5": "1e42b15eedc1066af972bb14f4329781",
+    "logo_path": "",
+    "open_current_version_on_fail": true,
+    "install_dir": ""
+}

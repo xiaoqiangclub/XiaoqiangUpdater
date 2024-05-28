@@ -545,11 +545,11 @@ def print_usage():
             "current_version": "1.0.0",
             "latest_version": "1.1.0",
             "update_url": "http://example.com/update.zip",
-            "main_app": "path/to/main_app.exe",
+            "main_app": "app.exe",
             "verify_file_md5": "d41d8cd98f00b204e9800998ecf8427e",
             "logo_path": "path/to/logo.png",
             "open_current_version_on_fail": true,
-            "install_dir": "path/to/install/directory"  # 可选，默认值为updater所在目录
+            "install_dir": ""
         }
 
         调用方法：
