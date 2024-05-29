@@ -17,10 +17,11 @@
 [![PyPI v](https://img.shields.io/pypi/v/XiaoqiangUpdater?style=flat-square&color=%23a8e6cf)](https://pypi.org/project/XiaoqiangUpdater/)
 [![PyPI wheel](https://img.shields.io/pypi/wheel/XiaoqiangUpdater?style=flat-square&color=%23dcedc1)](https://pypi.org/project/XiaoqiangUpdater/#files)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/XiaoqiangUpdater?color=%23ffaaa5&style=flat-square)](https://pypi.org/project/XiaoqiangUpdater/)
+<br>
 </div>
 
-# XiaoqiangUpdater
 
+# 
 > XiaoqiangUpdater 是一个通用的程序更新模块，主要为 Windows
 > 项目设计，但理论上也适用于其他平台，用户可根据需求自行打包和测试。该模块提供自动检测、下载和安装更新的功能，并能在更新完成后自动重启主应用程序。开发这个模块的初衷是为了简化程序开发中的升级流程，让开发者可以方便地调用模块实现自动更新。
 
